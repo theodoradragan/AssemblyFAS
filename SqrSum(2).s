@@ -1,10 +1,13 @@
 .data
+x: .word 3
+y: .word 4
+msg: .asciz "La somme est : %d \n"
 .text
 .global main
 
 sqr:
- mov r1, r0
- mul r0, r1, r1
+ mov r3, r0
+ mul r0, r3, r3
  bx lr
 
 sumsqr:
@@ -32,5 +35,15 @@ sumsqr:
  bx lr
 
 main:
- bl sqr
+ ldr r2, =x
+ ldr r0, [r2]
+ ldr r3, =y
+ ldr r1, [r3]
+
+ bl sumsqr
+
+ mov r1, r0
+ ldr r0, =msg
+ bl printf
+
  bl exit
