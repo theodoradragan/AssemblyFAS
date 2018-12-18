@@ -1,6 +1,8 @@
 .data
+n: .word 10
+msg: .asciz "La somme des entiers est : %d \n"
 .text
-.global
+.global main
 
 // C code would be like :
 // sum (x)
@@ -12,7 +14,8 @@ sum:
  str lr, [sp]
  cmp r0, #0
  ble sum0
- sub sp, sp, #8 // making place for current argument of function
+ sub sp, sp, #8 // making place for current number (r0)
+ str r0, [sp]
  sub r0 , #1
  bl sum
 
@@ -29,3 +32,12 @@ sum0:
  sub sp, sp, #8
  str r0, [sp] // storing the value 0 for sum(0)
  b endsum
+
+main:
+ ldr r1, =n
+ ldr r0, [r1]
+ bl sum
+ mov r1, r0
+ ldr r0, =msg
+ bl printf
+ bl exit
